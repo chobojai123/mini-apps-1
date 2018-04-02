@@ -8,7 +8,7 @@ for(var i = 0; i < cells.length; i ++){
 
 // vars to store X and O results
 // var for counter starting at 1, even counter = O; odd counter = X;
-var turnCounter = 1
+var turnCount = 1;
 var resultX = [];
 var resultO = [];
 // var to store all possible combos
@@ -20,50 +20,59 @@ var possibleCombo = [
         [3, 5, 7],
         [1, 4, 7],
         [2, 5, 8],
-        [3, 6, 9]
+        [3, 6, 9] 
         ];
 
-//add main function to add X or O after clicked
+//  add main function to add X or O after clicked
 function addMark(event){
-  if(event.
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function cellClick(cell) {
-  if (cell.id === "cell1x1") {
-    document.getElementById("cell1x1").innerHTML = "X";
-    document.getElementById("cell1x1").innerHTML = nextTurn;
-    playerTurn();
-  } else if (cell.id === "cell1x2"){
-    document.getElementById("cell1x2").innerHTML = "X";
-    document.getElementById("cell1x2").innerHTML = nextTurn;
-    playerTurn();    
-  }
-}
-
-
-function playerTurn() {
-  if (nextTurn === 'X') {
-    nextTurn = 'O';
+  if(event.target.innerHTML.length === 0){
+    // even counter = O; odd counter = X, if statement to tell which to mark
+    if(turnCount % 2 === 0){
+      resultO.push(Number(event.target.id));
+      event.target.innerHTML = 'O';
+    } else {
+      resultX.push(Number(event.target.id))
+      event.target.innerHTML = 'X'
+      console.log(resultX);
+    }
   } else {
-    nextTurn = 'X';
+    alert('This box has already been clicked!');
+  }
+  // increment counter every turn to keep track
+  turnCount++;
+  // function check for winners here
+  findWinner(resultX, 'X');
+  findWinner(resultO, 'O');
+  // if it reaches 10, alert no winner!
+  if(turnCount === 10){
+    alert('There is no winner and it is a tie game!');
   }
 }
 
+// helper function to check for winner
+function findWinner(resultArray, marked){
+  // iterate through the 8 possible combos
+  for(var i = 0; i < possibleCombo.length; i ++){
+  // var to keep track of matching numbers
+    var countWins = 0;
+    //  iterate through length of each possible outcome
+    for(var j = 0; j < possibleCombo[i].length; j ++){
+      if(resultArray.indexOf(possibleCombo[i][j]) !== -1){
+        //  if there is matching #, increase countWin
+        countWins++;
+      } 
+      // if there is 3 matching #, announce winner
+      if(countWins === 3){
+        alert('The winner of this game is ' + marked + '!');
+        // restart game after a winner is annonuced
+        startNewGame();
+      }
+    }
+  }
+}
 
-console.log('hi');
-console.log("DOM fully loaded and parsed");
+// function for reloading game
+function startNewGame(event){
+  location.reload();
+}
+
