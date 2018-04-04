@@ -6,8 +6,10 @@ for(var i = 0; i < cells.length; i ++){
   cells[i].addEventListener('click', addMark)
 }
 
+
 // vars to store X and O results
 // var for counter starting at 1, even counter = O; odd counter = X;
+var currentPlayer = 1;
 var turnCount = 1;
 var resultX = [];
 var resultO = [];
@@ -23,6 +25,7 @@ var possibleCombo = [
         [3, 6, 9] 
         ];
 
+
 //  add main function to add X or O after clicked
 function addMark(event){
   if(event.target.innerHTML.length === 0){
@@ -30,10 +33,14 @@ function addMark(event){
     if(turnCount % 2 === 0){
       resultO.push(Number(event.target.id));
       event.target.innerHTML = 'O';
+      currentPlayer--;
+      console.log(currentPlayer)
     } else {
       resultX.push(Number(event.target.id))
       event.target.innerHTML = 'X'
       console.log(resultX);
+      currentPlayer++;
+      console.log(currentPlayer)
     }
   } else {
     alert('This box has already been clicked!');
@@ -63,16 +70,29 @@ function findWinner(resultArray, marked){
       } 
       // if there is 3 matching #, announce winner
       if(countWins === 3){
-        alert('The winner of this game is ' + marked + '!');
-        // restart game after a winner is annonuced
-        startNewGame();
+        // if(marked === 'X'){
+        //   playerX ++;
+          alert('The winner of this game is ' + marked + '!');
+        // stop click after game is over
+          stopGame();
+          console.log(playerX);
+        // }
       }
     }
   }
 }
 
-// function for reloading game
-function startNewGame(event){
-  location.reload();
+function stopGame(){
+  for(var i = 0; i < cells.length; i++){
+    cells[i].removeEventListener('click', addMark);
+  }
 }
 
+// function for reloading game
+function startNewGame(number){
+  for(var i = 0; i < cells.length; i++){
+    cells[i].innerHTML = '';
+    cells[i].addEventListener('click', addMark);
+  }
+}
+  

@@ -1,7 +1,80 @@
+body{
+  background-color: lightblue;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.table{
+  font-weight: bold;
+  color: blue;
+  border: solid;
+}
+
+.name-form{
+  display: flex;
+  flex-direction: column;
+}
+
+#start{
+  margin-bottom: 20px;
+}
+
+.gameboard{
+  display: flex;
+  justify-content: space-evenly;
+  width: 50%;
+}
+
+p, p scan{
+  font-size: 18px;
+  color: black;
+}
+
+.score{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  font-size: 50px;
+  color: black;
+  font-weight: bold;
+}
+
+.message {
+  background: #4CAF50;
+  color: black;
+  padding: 10px;
+  font-size: 18px;
+  border: 2px;
+  display: inline-block;
+  border-style: solid;
+  margin-bottom: 10px;
+}
+
 .cell {
-    width: 50px;
-    height: 50px;
-    background: white;
-    border: 1px solid;
-    align-content: center;
+  width: 100px;
+  height: 100px;
+  font-size: 50px;
+  background: white;
+  border: 1px solid;
+  align-content: center;
+  text-align: center;
+}
+
+.button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
 }
