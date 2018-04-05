@@ -5,7 +5,6 @@ App.init = function(){
   $(document).ready(function(){
     $('#form').on('submit', function(e){
       e.preventDefault();
-      console.log($('#input-csv').val())
       App.send($('#input-csv').val());
     });
   });
@@ -30,8 +29,8 @@ App.send = function(data){
   $.ajax({
     url: '/csv',
     method: 'POST',  
-    data: data,  
     contentType: 'application/json',
+    data: data,  
     success: function () {
       console.log('successful');
     },

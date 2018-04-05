@@ -11,28 +11,45 @@ var app = express();
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'client')));
 
-app.get('/csv', function(req, res){
-  fs.readFile('./csv/csv.txt', function(err, result){
-    if(err){
-      res.statusCode = 404;
-      res.end(JSON.stringify(err));
-      return;
-    }
-    res.statusCode = 200;
-    res.send(JSON.stringify(result));
-  });
-});
+// app.get('/csv', function(req, res){
+//   fs.readFile('./csv/csv.txt', function(err, result){
+//     if(err){
+//       res.statusCode = 404;
+//       res.end(JSON.stringify(err));
+//       return;
+//     }
+//     res.statusCode = 200;
+//     res.send(JSON.stringify(result));
+//   });
+// });
 
 app.post('/csv', function(req, res) {
-  // find keys in req.body
-  var keys = Object.keys(req.body);
-  // string at end
-  var results = keys.join(',')
-  var arr = [req.body.firstName, req.body.lastName, req.body.county, req.body.city, req.body.role, req.body.ales, req.body.children];
+  var convertToCSV = function (data){
+    var keys = Object.keys(data);
+    var line = '';
+    for(var i = 0; i < keys.length - 1; i++){
+      line += keys[i] + ',';
+    }
+    line = line.slice(0, -1);
+    line += '\n'
 
+    var recursion = function(data){
+      var newLine = '';
+      for(var i = 0; i < keys.length - 1; i ++){
+        newLine += data[keys[i]] + ',';
+        newLine = newLine.slice(0, -1);
+      }
+      newLine += '\n';
+      for(var i = 0; i < data.children.length; i++){
+        newLine += recursion(data.children[i]);
+      }
+      return newLine;
+    }
+    recursion(data);
+  }
+  convertToCSV(req.body);
 
-
-  fs.appendFile(fileDirectory, end, function(err){
+  fs.appendFile(fileDirectory, 'hi' ,function(err){
     if(err){
       res.statusCode = 400;
       res.end(JSON.stringify(err))
@@ -42,10 +59,6 @@ app.post('/csv', function(req, res) {
     res.end();
   });
 });
-
-
-// Logging and parsing
-// app.use(parser.json());
 
 
 app.listen(port, function () {

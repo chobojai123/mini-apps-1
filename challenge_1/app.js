@@ -1,5 +1,5 @@
 var cells = document.getElementsByClassName('cell');
-
+var score = document.getElementsByClassName('P1-score');
 // add click event listener to each cell
 
 for(var i = 0; i < cells.length; i ++){
@@ -9,6 +9,8 @@ for(var i = 0; i < cells.length; i ++){
 
 // vars to store X and O results
 // var for counter starting at 1, even counter = O; odd counter = X;
+var playerX = 0;
+var playerO = 0;
 var currentPlayer = 1;
 var turnCount = 1;
 var resultX = [];
@@ -34,13 +36,10 @@ function addMark(event){
       resultO.push(Number(event.target.id));
       event.target.innerHTML = 'O';
       currentPlayer--;
-      console.log(currentPlayer)
     } else {
       resultX.push(Number(event.target.id))
       event.target.innerHTML = 'X'
-      console.log(resultX);
       currentPlayer++;
-      console.log(currentPlayer)
     }
   } else {
     alert('This box has already been clicked!');
@@ -69,14 +68,17 @@ function findWinner(resultArray, marked){
         countWins++;
       } 
       // if there is 3 matching #, announce winner
-      if(countWins === 3){
-        // if(marked === 'X'){
-        //   playerX ++;
-          alert('The winner of this game is ' + marked + '!');
-        // stop click after game is over
-          stopGame();
-          console.log(playerX);
+      if(countWins === 3 && marked === 'X'){
+        playerX++;   
+        alert('The winner of this game is ' + marked + '!');
+        score.innerHTML = 2;
+        score.innerTEXT = 2;
+        stopGame();
         // }
+      } else if (countWins === 3 && marked === 'O'){
+        playerO++;
+        alert('The winner of this game is ' + marked + '!');
+        stopGame();
       }
     }
   }
@@ -91,6 +93,10 @@ function stopGame(){
 // function for reloading game
 function startNewGame(number){
   for(var i = 0; i < cells.length; i++){
+    turnCount = 1;
+    currentPlayer = 1;
+    resultX = [];
+    resultO = [];
     cells[i].innerHTML = '';
     cells[i].addEventListener('click', addMark);
   }
